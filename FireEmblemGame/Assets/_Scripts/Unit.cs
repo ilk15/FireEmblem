@@ -75,14 +75,14 @@ public class Unit : MonoBehaviour
     private List<GameObject> reachableFrom(GameObject tile, int movement)
     {
         List<GameObject> list = new List<GameObject>();
-        foreach(GameObject loc in tile.neighbors())
+        foreach(GameObject loc in adjacency.adjacentTiles(tile))
         {
             if (movement > 0)
             {
                 list.Add(loc);
                 list.AddRange(reachableFrom(loc, movement -1));
             }
-            else return null;
+            else return new List<GameObject>();
         }
         return list;
     }

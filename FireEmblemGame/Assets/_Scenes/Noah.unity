@@ -767,7 +767,6 @@ MonoBehaviour:
   item_3: {fileID: 0}
   item_4: {fileID: 0}
   item_5: {fileID: 0}
-  goal: {fileID: 1609675168}
 --- !u!1 &750006891
 GameObject:
   m_ObjectHideFlags: 0

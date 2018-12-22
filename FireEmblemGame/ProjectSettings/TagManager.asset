@@ -20,7 +20,7 @@ TagManager:
   - 
   - 
   - Tiles
-  - 
+  - Units
   - 
   - 
   - 
@@ -46,4 +46,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Units
+    uniqueID: 1439900219
     locked: 0
