@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Trees
+  - Ground
+  - Water
+  - Mountain
+  - Peak
+  - Unwalkable
   layers:
   - Default
   - TransparentFX
