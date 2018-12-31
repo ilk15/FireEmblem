@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Trees
-  - Ground
-  - Water
   - Mountain
   - Peak
   - Unwalkable
+  - Cliff
+  - River
+  - Plain
   layers:
   - Default
   - TransparentFX
@@ -49,4 +50,7 @@ TagManager:
     locked: 0
   - name: Units
     uniqueID: 1439900219
+    locked: 0
+  - name: UI
+    uniqueID: 2186242449
     locked: 0

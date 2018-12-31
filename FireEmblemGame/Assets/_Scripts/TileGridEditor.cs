@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(GridMaker))]
+[CustomEditor(typeof(TileGrid))]
 [CanEditMultipleObjects]
-public class GridMakerEditor : Editor
+public class TileGridEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        GridMaker maker = (GridMaker)target;
+        TileGrid maker = (TileGrid)target;
         if (GUILayout.Button("make grid"))
         {
             maker.make();

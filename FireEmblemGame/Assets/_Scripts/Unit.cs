@@ -45,6 +45,9 @@ public class Unit : MonoBehaviour
     public GameObject item_4;
     public GameObject item_5;
 
+    private bool isDead;
+    private bool hasActed;
+
     public static char WeaponRank(int WExp)
     {
         if (WExp >= 1 && WExp < 31)
@@ -61,30 +64,111 @@ public class Unit : MonoBehaviour
             return 'S';
         else
             return '-';
+
+
+    
     }
 
-    public List<GameObject> reachable()
+    private static int TileCost(GameObject tile)
     {
-        List<GameObject> list = new List<GameObject>();
-        list.Add(currentTile);
-        list.AddRange(reachableFrom(currentTile, Spd));
-        return list;
+        if (tile.tag == "Plain")
+            return 1;
+        else if (tile.tag == "River")
+            return int.MaxValue;
+        else if (tile.tag == "Cliff")
+            return int.MaxValue;
+ 
+        else
+            return 1;
 
     }
 
-    private List<GameObject> reachableFrom(GameObject tile, int movement)
+    public void Damage(int dmg)
     {
-        List<GameObject> list = new List<GameObject>();
-        foreach(GameObject loc in adjacency.adjacentTiles(tile))
+        HP = HP - dmg;
+        if (HP <= 0)
+            isDead = true;
+    }
+
+    public void Attack(GameObject unit)
+    {
+        if (unit.layer != 9)
         {
-            if (movement > 0)
-            {
-                list.Add(loc);
-                list.AddRange(reachableFrom(loc, movement -1));
-            }
-            else return new List<GameObject>();
+            Debug.Log("thats no unit...");
         }
-        return list;
+        else
+        {
+            unit.GetComponent<Unit>().Damage(1);
+        }
     }
+
+    public bool IsDead()
+    {
+        return isDead;      
+    }
+
+    public bool HasActed()
+    {
+        return hasActed;
+    }
+
+    public void EndAction()
+    {
+        hasActed = true;
+    }
+
+    public void Refresh()
+    {
+        hasActed = false;
+    }
+        
+
+    public List<GameObject> ReachableTiles()
+    {
+        return TilesReachableFrom(currentTile, Spd);
+    }
+
+    private List<GameObject> TilesReachableFrom(GameObject tile, int movement)
+    {
+        if (tile.layer != 8)
+            return null;
+        else
+        {
+            List<GameObject> output = new List<GameObject>();
+            output.Add(tile);
+            if (Adjacency.TileUp(tile) != null && movement >= TileCost(Adjacency.TileUp(tile)))
+            {
+                output.AddRange(TilesReachableFrom(Adjacency.TileUp(tile), movement- TileCost(Adjacency.TileUp(tile))));
+            }
+            if (Adjacency.TileDown(tile) != null && movement >= TileCost(Adjacency.TileDown(tile)))
+            {
+                output.AddRange(TilesReachableFrom(Adjacency.TileDown(tile), movement - TileCost(Adjacency.TileDown(tile))));
+            }
+            if (Adjacency.TileLeft(tile) != null && movement >= TileCost(Adjacency.TileLeft(tile)))
+            {
+                output.AddRange(TilesReachableFrom(Adjacency.TileLeft(tile), movement - TileCost(Adjacency.TileLeft(tile))));
+            }
+            if (Adjacency.TileRight(tile) != null && movement >= TileCost(Adjacency.TileRight(tile)))
+            {
+                output.AddRange(TilesReachableFrom(Adjacency.TileRight(tile), movement - TileCost(Adjacency.TileRight(tile))));
+            }
+            return output;
+        }
+    }
+
+
+    private void Update()
+    {
+        currentTile = Adjacency.TileOf(gameObject);
+        if (HasActed())
+        {
+            GetComponent<SpriteRenderer>().material.color = Color.grey;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().material.color = Color.white;
+        }
+    }
+
 
 }
